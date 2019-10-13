@@ -7,8 +7,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      themeMode: ThemeMode.system,
+      theme: ThemeData(),
+      darkTheme: ThemeData.dark(),
       home: Scaffold(
-
         body: Center(
           //child: const Text('Hello World'),
           child: RandomWords(),
@@ -28,15 +30,14 @@ class RandomWords extends StatefulWidget {
 //State class
 
 class RandomWordsState extends State<RandomWords> {
-
-
   // List of word pairs
   final List<WordPair> _list = <WordPair>[];
+
   // Selected word pairs
   final List<WordPair> _saved = <WordPair>[];
+
   //Text Style
   final TextStyle _textStyle = const TextStyle(fontSize: 18);
-
 
 //Main builder method
   @override
@@ -72,7 +73,6 @@ class RandomWordsState extends State<RandomWords> {
 
   // widget builder for generating list rows
   Widget _buildRow(WordPair pair) {
-
     // bool to check if pair saved
     final bool alreadySaved = _saved.contains(pair);
 
@@ -86,12 +86,11 @@ class RandomWordsState extends State<RandomWords> {
         color: alreadySaved ? Colors.red : null,
       ),
       // Method action on tap of the row item
-      onTap: (){
+      onTap: () {
         setState(() {
-          if(alreadySaved){
+          if (alreadySaved) {
             _saved.remove(pair);
-          }
-          else{
+          } else {
             _saved.add(pair);
           }
         });
@@ -100,14 +99,12 @@ class RandomWordsState extends State<RandomWords> {
   }
 
   // Method to open new controller with saved data
-  void _pushSaved(){
-    
+  void _pushSaved() {
     Navigator.of(context).push(
-
       MaterialPageRoute<void>(
         builder: (BuildContext context) {
           final Iterable<ListTile> tiles = _saved.map(
-                (WordPair pair) {
+            (WordPair pair) {
               return ListTile(
                 title: Text(
                   pair.asPascalCase,
@@ -117,12 +114,10 @@ class RandomWordsState extends State<RandomWords> {
             },
           );
           // add list widget
-          final List<Widget> divided = ListTile
-              .divideTiles(
+          final List<Widget> divided = ListTile.divideTiles(
             context: context,
             tiles: tiles,
-          )
-              .toList();
+          ).toList();
 
           return Scaffold(
             appBar: AppBar(
